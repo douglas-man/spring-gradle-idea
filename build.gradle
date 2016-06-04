@@ -1,0 +1,43 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'idea'
+apply plugin: 'org.akhikhl.gretty'
+//apply from   : 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+
+//def jclOverSlf4jVersion = "1.7.14"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+//    compile 'org.slf4j:jcl-over-slf4j:' + jclOverSlf4jVersion
+
+
+    compile 'ch.qos.logback:logback-classic:1.+'
+    compile 'org.springframework:spring-webmvc:4.+'
+    compile 'javax.servlet:jstl:1.+'
+
+    //include in compile only, exclude in the war
+    providedCompile 'javax.servlet:servlet-api:2.+'
+}
+
+//Gretty Embedded Jetty
+buildscript {
+  repositories {
+    jcenter()
+  }
+
+  dependencies {
+    classpath 'org.akhikhl.gretty:gretty:+'
+  }
+}
+
+gretty {
+  port = 8080
+  servletContainer = 'jetty9'
+}
